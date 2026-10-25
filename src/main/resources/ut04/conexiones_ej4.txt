@@ -1,0 +1,11 @@
+Asuncion,Buenos_Aires,1600
+Asuncion,Curitiba,800
+Asuncion,Porto_Alegre,700
+Buenos_Aires,Asuncion,1600
+Buenos_Aires,Montevideo,200
+Buenos_Aires,Porto_Alegre,1250
+Curitiba,Rio_de_Janeiro,1500
+Montevideo,Buenos_Aires,200
+Montevideo,Porto_Alegre,1000
+Porto_Alegre,Montevideo,1000
+Rio_de_Janeiro,Curitiba,1500

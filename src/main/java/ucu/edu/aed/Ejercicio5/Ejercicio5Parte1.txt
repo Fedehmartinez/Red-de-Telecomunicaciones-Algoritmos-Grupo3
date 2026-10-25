@@ -1,0 +1,140 @@
+EJERCICIO 5 - PARTE 1
+=====================
+
+1) 
+Listar todos los itinerarios posibles entre un origen y un destino,
+cada uno con su costo total.
+
+Se emplea recorridoen profundidad (DFS) con backtracking.
+
+- Se mantiene un CAMINO ACTUAL (lista de vertices) y un COSTO ACUMULADO.
+- Se parte del origen: se agrega al camino y se lo marca como visitado.
+- Para cada adyacente del vrtice actual que NO este visitado:
+    - se lo agrega al camino y se suma el peso de la arista
+    - se repite el proceso desde ese vertice
+    - al volver (backtracking) se lo saca del camino, se resta el peso
+      y se lo desmarca como visitado, para poder usarlo en otros caminos.
+- Si el vertice actual es el DESTINO: se guarda una COPIA del camino con su
+  costo total y se vuelve atras (no se sigue explorando desde el destino).
+- Si no quedan adyacentes sin visitar, se vuelve atras (callejon sin salida).
+
+Marcar/desmarcar visitados evita ciclos, asi, ningun vertice se repite en un camino.
+
+
+2)
+Se usa el grafo dirigido del Cuadro 2 (Ejercicio 3), que es
+donde aparecen Montevideo y Porto Alegre.
+
+Aristas salientes:
+  As: BA 1600, Cu 800, PA 700
+  BA: As 1600, M 200, PA 1250
+  Cu: Ri 1500
+  M : BA 200, PA 1000, SP 980, Sa 1200
+  PA: (ninguna)
+  Ri: Cu 1500, SP 1800, Sa 1900
+  SP: As 1200, Cu 600, M 2000, PA 980, Ri 1800, Sa 220
+  Sa: PA 1200, SP 220
+
+
+3)
+EJECUCION PASO A PASO: Montevideo -> Porto Alegre
+
+Se recorren los adyacentes en el orden en que aparecen arriba.
+"X" = ya visitado (no se puede usar). "[OK]" = llego al destino, se guarda.
+"(dead)" = sin salida, se vuelve atras.
+
+M (0)
+|- BA (200)
+|   |- As (1800)
+|   |   |- BA: X
+|   |   |- Cu (2600)
+|   |   |   '- Ri (4100)
+|   |   |       |- Cu: X
+|   |   |       |- SP (5900)
+|   |   |       |   |- As: X, Cu: X, M: X
+|   |   |       |   |- PA (6880)  [OK] camino 1
+|   |   |       |   |- Ri: X
+|   |   |       |   '- Sa (6120)
+|   |   |       |       |- PA (7320) [OK] camino 2
+|   |   |       |       '- SP: X
+|   |   |       '- Sa (6000)
+|   |   |           |- PA (7200) [OK] camino 3
+|   |   |           '- SP (6220)
+|   |   |               |- As: X, Cu: X, M: X
+|   |   |               |- PA (7200) [OK] camino 4
+|   |   |               '- Ri: X, Sa: X
+|   |   '- PA (2500) [OK] camino 5
+|   |- M: X
+|   '- PA (1450) [OK] camino 6
+|- PA (1000) [OK] camino 7
+|- SP (980)
+|   |- As (2180)
+|   |   |- BA (3780)
+|   |   |   |- As: X, M: X
+|   |   |   '- PA (5030) [OK] camino 8
+|   |   |- Cu (2980)
+|   |   |   '- Ri (4480)
+|   |   |       |- Cu: X, SP: X
+|   |   |       '- Sa (6380)
+|   |   |           |- PA (7580) [OK] camino 9
+|   |   |           '- SP: X
+|   |   '- PA (2880) [OK] camino 10
+|   |- Cu (1580)
+|   |   '- Ri (3080)
+|   |       |- Cu: X, SP: X
+|   |       '- Sa (4980)
+|   |           |- PA (6180) [OK] camino 11
+|   |           '- SP: X
+|   |- M: X
+|   |- PA (1960) [OK] camino 12
+|   |- Ri (2780)
+|   |   |- Cu (4280) (dead: Ri ya visitado)
+|   |   '- Sa (4680)
+|   |       |- PA (5880) [OK] camino 13
+|   |       '- SP: X
+|   '- Sa (1200)
+|       |- PA (2400) [OK] camino 14
+|       '- SP: X
+'- Sa (1200)
+    |- PA (2400) [OK] camino 15
+    '- SP (1420)
+        |- As (2620)
+        |   |- BA (4220)
+        |   |   |- As: X, M: X
+        |   |   '- PA (5470) [OK] camino 16
+        |   |- Cu (3420)
+        |   |   '- Ri (4920) (dead: Cu, SP, Sa ya visitados)
+        |   '- PA (3320) [OK] camino 17
+        |- Cu (2020)
+        |   '- Ri (3520) (dead: Cu, SP, Sa ya visitados)
+        |- M: X
+        |- PA (2400) [OK] camino 18
+        |- Ri (3220)
+        |   '- Cu (4720) (dead: Ri ya visitado)
+        '- Sa: X
+
+
+4) RESULTADO:
+ #  Camino                                          Costo
+ 7  M - PA                                           1000
+ 6  M - BA - PA                                      1450
+12  M - SP - PA                                      1960
+14  M - SP - Sa - PA                                 2400
+15  M - Sa - PA                                      2400
+18  M - Sa - SP - PA                                 2400
+ 5  M - BA - As - PA                                 2500
+10  M - SP - As - PA                                 2880
+17  M - Sa - SP - As - PA                            3320
+ 8  M - SP - As - BA - PA                            5030
+16  M - Sa - SP - As - BA - PA                       5470
+13  M - SP - Ri - Sa - PA                            5880
+11  M - SP - Cu - Ri - Sa - PA                       6180
+ 1  M - BA - As - Cu - Ri - SP - PA                  6880
+ 3  M - BA - As - Cu - Ri - Sa - PA                  7200
+ 4  M - BA - As - Cu - Ri - Sa - SP - PA             7200
+ 2  M - BA - As - Cu - Ri - SP - Sa - PA             7320
+ 9  M - SP - As - Cu - Ri - Sa - PA                  7580
+
+Total: 18 caminos (numero = orden en que los encontro el DFS).
+Menor costo: M - PA que es directo (1000).
+Mayor costo: M - SP - As - Cu - Ri - Sa - PA (7580).
