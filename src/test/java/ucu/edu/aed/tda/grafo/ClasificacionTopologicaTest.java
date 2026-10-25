@@ -37,6 +37,11 @@ public class ClasificacionTopologicaTest extends TestCase {
         assertTrue(algoritmos.calcularClasificacionTopologica(grafo).isEmpty());
     }
 
+    public void testUnSoloVertice() {
+        vertices("A");
+        assertEquals(List.of("A"), algoritmos.calcularClasificacionTopologica(grafo));
+    }
+
     public void testVerticesSinAristas() {
         vertices("A", "B", "C");
         assertClasificacionValida(algoritmos.calcularClasificacionTopologica(grafo));
@@ -81,6 +86,19 @@ public class ClasificacionTopologicaTest extends TestCase {
         vertices("A", "B");
         arista("A", "B");
         arista("B", "A");
+        try {
+            algoritmos.calcularClasificacionTopologica(grafo);
+            fail("Debía lanzar IllegalArgumentException");
+        } catch (IllegalArgumentException esperada) {
+            // ok
+        }
+    }
+
+    /** Un lazo A -> A también es un ciclo. */
+    public void testConLazoLanzaExcepcion() {
+        vertices("A", "B");
+        arista("A", "B");
+        arista("A", "A");
         try {
             algoritmos.calcularClasificacionTopologica(grafo);
             fail("Debía lanzar IllegalArgumentException");

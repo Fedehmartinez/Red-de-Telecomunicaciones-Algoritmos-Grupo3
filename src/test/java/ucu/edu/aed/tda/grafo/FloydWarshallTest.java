@@ -134,6 +134,20 @@ public class FloydWarshallTest extends TestCase {
         assertEquals(List.of("A", "B", "C"), r.getPath("A", "C"));
     }
 
+    /** A -> B -> D y A -> C -> D cuestan 4: el costo es 4 y el camino es cualquiera de los dos. */
+    public void testFloydDosCaminosDeIgualCosto() {
+        vertices("A", "B", "C", "D");
+        arista("A", "B", 1);
+        arista("B", "D", 3);
+        arista("A", "C", 2);
+        arista("C", "D", 2);
+        IFloydWarshallResult<String> r = algoritmos.floyd(grafo);
+        assertEquals(4.0, r.getCost("A", "D"), DELTA);
+        List<String> camino = r.getPath("A", "D");
+        assertTrue(camino.toString(),
+                camino.equals(List.of("A", "B", "D")) || camino.equals(List.of("A", "C", "D")));
+    }
+
     /** Cadena larga: el camino de A a E pasa por todos los intermedios, en orden. */
     public void testFloydCaminoConVariosIntermedios() {
         vertices("A", "B", "C", "D", "E");

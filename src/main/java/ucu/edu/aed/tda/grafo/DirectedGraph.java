@@ -18,6 +18,8 @@ import java.util.Set;
 /**
  * Implementación mínima de grafo dirigido con lista de adyacencias:
  * cada vértice apunta a la lista de sus aristas salientes.
+ * Se permiten lazos (A -> A): en un dirigido son un ciclo de largo 1. No se permite más de un arco
+ * con el mismo origen y destino.
  */
 public class DirectedGraph<V, D> implements IDirectedIGraph<V, D> {
 

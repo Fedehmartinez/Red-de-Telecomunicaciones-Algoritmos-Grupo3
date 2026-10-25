@@ -72,6 +72,18 @@ public class RecorridoEnAmplitudTest extends TestCase {
         assertTrue(desde("Z").isEmpty());
     }
 
+    public void testUnSoloVertice() {
+        vertices("A");
+        assertEquals(List.of("A"), desde("A"));
+    }
+
+    public void testGrafoVacio() {
+        assertTrue(desde("A").isEmpty());
+        List<String> orden = new ArrayList<>();
+        algoritmos.recorridoEnAmplitud(grafo, orden::add);
+        assertTrue(orden.isEmpty());
+    }
+
     /** Todo el grafo: A -> B y C -> D no están unidos; se recorren los dos, sin repetir B. */
     public void testTodoElGrafo() {
         vertices("A", "B", "C", "D");

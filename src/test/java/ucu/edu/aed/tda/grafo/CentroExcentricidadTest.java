@@ -139,6 +139,18 @@ public class CentroExcentricidadTest extends TestCase {
         assertEquals("C", algoritmos.obtenerCentroGrafo(grafo));
     }
 
+    /** Ciclo A -> B -> C -> A con pesos iguales: todos tienen excentricidad 2 y el centro es el primero. */
+    public void testEmpateDeExcentricidadesElCentroEsElPrimero() {
+        vertices("A", "B", "C");
+        arista("A", "B", 1);
+        arista("B", "C", 1);
+        arista("C", "A", 1);
+        assertEquals(2.0, excentricidad("A"), DELTA);
+        assertEquals(2.0, excentricidad("B"), DELTA);
+        assertEquals(2.0, excentricidad("C"), DELTA);
+        assertEquals("A", algoritmos.obtenerCentroGrafo(grafo));
+    }
+
     public void testGrafoSimetricoEnEstrella() {
         vertices("C", "X", "Y", "Z");
         for (String hoja : new String[]{"X", "Y", "Z"}) {
