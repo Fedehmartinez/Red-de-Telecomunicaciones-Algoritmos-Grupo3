@@ -36,7 +36,7 @@ public class ServicioConsultas {
      * Se resuelve con el servicio de resiliencia.
      */
     public ImpactoFalla queOcurreSiCae(String nodo) {
-        throw new UnsupportedOperationException("Falta implementar");
+        return resiliencia.impactoFallaNodo(nodo);
     }
 
     /**
@@ -44,7 +44,7 @@ public class ServicioConsultas {
      * Se resuelve con el servicio de resiliencia.
      */
     public List<ImpactoFalla> rankingNodosCriticos() {
-        throw new UnsupportedOperationException("Falta implementar");
+        return resiliencia.rankingCriticosSimple();
     }
 
     /** 4. Diámetro de la red: el peor caso de latencia entre dos nodos. Se resuelve con el servicio de ruteo. */

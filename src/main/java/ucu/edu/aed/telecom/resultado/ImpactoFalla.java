@@ -8,7 +8,8 @@ import java.util.Set;
  * Qué pasa cuando falla un elemento (un nodo o un enlace):
  * - nodosIncomunicados: los nodos que siguen andando pero, por esta falla, ya no llegan a ningún data center
  *   (no incluye el elemento caído ni los que ya estaban incomunicados antes de la falla);
- * - usuariosAfectados: los usuarios de esos nodos más los del propio nodo caído, si es de acceso.
+ * - usuariosAfectados: los usuarios de esos nodos más los del propio nodo caído, si es de acceso (y si no estaba
+ *   ya incomunicado antes de la falla).
  */
 public class ImpactoFalla {
 
