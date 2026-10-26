@@ -28,7 +28,7 @@ public class ServicioConsultas {
      * grande): el camino más rápido no sirve si pasa por un enlace angosto. Se resuelve con el servicio de ruteo.
      */
     public RutaResultado rutaConAnchoBandaMinimo(String origen, String destino, double anchoBandaMinimo) {
-        throw new UnsupportedOperationException("Falta implementar");
+        return ruteo.rutaConAnchoBandaMinimo(origen, destino, anchoBandaMinimo);
     }
 
     /**
@@ -49,7 +49,7 @@ public class ServicioConsultas {
 
     /** 4. Diámetro de la red: el peor caso de latencia entre dos nodos. Se resuelve con el servicio de ruteo. */
     public ResultadoDiametro diametro() {
-        throw new UnsupportedOperationException("Falta implementar");
+        return ruteo.diametro();
     }
 
     /**
@@ -57,6 +57,6 @@ public class ServicioConsultas {
      * Se resuelve con el servicio de CDN.
      */
     public List<String> nodosQueSuperanLatencia(double latenciaMaxima) {
-        throw new UnsupportedOperationException("Falta implementar");
+        return cdn.nodosQueSuperanLatencia(latenciaMaxima);
     }
 }
