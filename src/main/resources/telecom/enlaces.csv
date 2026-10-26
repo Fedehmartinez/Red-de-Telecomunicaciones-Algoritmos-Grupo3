@@ -1,0 +1,70 @@
+# Enlaces de la red de ejemplo (uno por par de nodos, en cualquier orden).
+# Columnas: a,b,tipo,latenciaAB,latenciaBA,anchoBanda,costo
+#   a,b          ids de los extremos
+#   tipo         FIBRA, COBRE o RADIOENLACE
+#   latenciaAB   latencia de a hacia b, en ms
+#   latenciaBA   latencia de b hacia a, en ms
+#   anchoBanda   en Mbps (FIBRA 100-100000, COBRE 10-1000, RADIOENLACE 10-2000)
+#   costo        de instalación, en miles de USD
+a,b,tipo,latenciaAB,latenciaBA,anchoBanda,costo
+# Núcleo
+R1,R2,FIBRA,5,5,40000,60
+R2,R3,FIBRA,5,5,40000,55
+R3,R4,FIBRA,5,5,40000,58
+R4,R1,FIBRA,5,5,40000,52
+R1,R3,FIBRA,4,7,40000,70
+R3,R5,FIBRA,7,7,10000,45
+R4,R5,FIBRA,3,6,10000,40
+# Data centers
+DC1,R1,FIBRA,3,3,10000,30
+DC1,R2,FIBRA,3,3,10000,32
+DC2,R3,FIBRA,3,3,10000,34
+DC2,R4,FIBRA,3,3,10000,36
+DC3,R2,FIBRA,4,4,10000,28
+DC3,R3,FIBRA,4,4,10000,26
+# Zona norte
+SW1,R1,FIBRA,3,3,10000,20
+SW1,R2,FIBRA,3,3,10000,22
+SRV1,SW1,FIBRA,1,1,10000,10
+SRV1,R1,FIBRA,3,3,10000,14
+AP1,SW1,COBRE,3,3,1000,6
+AP1,AP2,COBRE,4,4,100,3
+AP2,SW1,COBRE,4,4,800,7
+AP2,R2,COBRE,5,5,500,9
+OF1,SW1,FIBRA,2,2,1000,15
+OF1,R1,FIBRA,3,3,1000,18
+# Zona este
+SW2,R3,FIBRA,4,4,10000,24
+SW2,R2,FIBRA,4,4,10000,25
+AP3,SW2,COBRE,2,5,1000,8
+AP3,OF2,COBRE,3,3,500,4
+OF2,SW2,COBRE,3,3,1000,6
+OF2,R3,COBRE,6,6,500,7
+OF3,SW2,FIBRA,2,2,1000,16
+OF3,R3,FIBRA,3,3,1000,19
+# Zona sur
+SW3,R4,FIBRA,4,4,10000,21
+SW3,R5,FIBRA,4,4,10000,23
+AP4,SW3,COBRE,3,3,1000,7
+AP4,OF4,COBRE,4,4,100,3
+OF4,SW3,COBRE,3,3,500,5
+OF4,R4,COBRE,5,5,500,8
+# Radioenlace barato entre los switches este y sur (angosto)
+SW2,SW3,RADIOENLACE,3,3,50,5
+# Zona rural (cuelga de R5 por un único radioenlace)
+R5,RR1,RADIOENLACE,40,40,200,12
+RR1,AP5,RADIOENLACE,25,35,80,4
+AP5,AP6,RADIOENLACE,30,30,50,3
+RR1,OF5,COBRE,20,20,100,5
+#
+# Propiedades pensadas a propósito
+# - Puntos de articulación: R5, RR1 y AP5 (el resto de la red es redundante).
+# - Puentes (enlaces críticos): R5-RR1, RR1-AP5, RR1-OF5 y AP5-AP6.
+# - Enlaces asimétricos (a-b, latenciaAB/latenciaBA): R1-R3 (4/7), R4-R5 (3/6),
+#   AP3-SW2 (2/5) y RR1-AP5 (25/35).
+# - Ancho de banda: la ruta de menor latencia de SW2 a SW3 es SW2,SW3 (3 ms) y pasa por el
+#   radioenlace de 50 Mbps. Con enlaces de al menos 1000 Mbps la mejor ruta es SW2,R3,R4,SW3 (13 ms).
+# - Empate: de R2 a R4 (y de R4 a R2) hay dos caminos de exactamente 10 ms: por R1 y por R3.
+# - Zona lejos de los data centers: la rural (AP5, AP6 y OF5, 6800 usuarios). Su mejor data center
+#   está a 66 ms de OF5, 71 ms de AP5 y 101 ms de AP6; el resto de los nodos de acceso está a 12 ms o menos.
+#   Poner un data center nuevo en AP5 es lo que más reduce la latencia de esa zona.

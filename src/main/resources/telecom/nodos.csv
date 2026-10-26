@@ -1,0 +1,39 @@
+# Nodos de la red de ejemplo del proveedor.
+# Columnas: id,tipo,capacidad,usuarios
+#   id        identificador único y corto
+#   tipo      ROUTER, SWITCH, SERVIDOR, PUNTO_ACCESO, DATA_CENTER u OFICINA
+#   capacidad en PUNTO_ACCESO y OFICINA, máximo de usuarios que atienden;
+#             en el resto, informativa (Gbps que maneja el equipo)
+#   usuarios  usuarios conectados; solo PUNTO_ACCESO y OFICINA tienen (el resto va en 0)
+id,tipo,capacidad,usuarios
+# Núcleo
+R1,ROUTER,400,0
+R2,ROUTER,400,0
+R3,ROUTER,400,0
+R4,ROUTER,400,0
+R5,ROUTER,200,0
+# Data centers
+DC1,DATA_CENTER,1000,0
+DC2,DATA_CENTER,1000,0
+DC3,DATA_CENTER,1000,0
+# Distribución y servidor
+SW1,SWITCH,100,0
+SW2,SWITCH,100,0
+SW3,SWITCH,100,0
+SRV1,SERVIDOR,50,0
+# Zona norte
+AP1,PUNTO_ACCESO,1000,800
+AP2,PUNTO_ACCESO,1500,1200
+OF1,OFICINA,200,150
+# Zona este
+AP3,PUNTO_ACCESO,800,600
+OF2,OFICINA,500,400
+OF3,OFICINA,300,250
+# Zona sur
+AP4,PUNTO_ACCESO,1000,900
+OF4,OFICINA,150,120
+# Zona rural
+RR1,ROUTER,50,0
+AP5,PUNTO_ACCESO,4000,3500
+AP6,PUNTO_ACCESO,3000,2800
+OF5,OFICINA,600,500
