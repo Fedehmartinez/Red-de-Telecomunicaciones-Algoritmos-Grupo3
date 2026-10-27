@@ -121,6 +121,54 @@ public class ServicioCDN {
     }
 
     /**
+     * Versión optimizada de recomendarDCSimple (Desafío 3), da exactamente el mismo resultado.
+     * La simple recalcula Floyd para cada candidato, pero agregar un data center no cambia ni los enlaces ni las
+     * latencias: la matriz es siempre la misma. Acá se calcula Floyd una sola vez y se guarda la latencia actual
+     * de cada nodo de acceso a su data center (el mínimo de la fila de cada DC). Si el candidato c pasa a ser
+     * data center, la nueva latencia de u es min(actual(u), dist(c -> u)), así que
+     * beneficio(c) = suma de usuarios(u) · max(0, actual(u) - dist(c -> u)), mirando la fila de c.
+     * Mismas reglas que la simple: solo nodos de acceso, los que hoy no llegan a ningún DC no suman, usuarios
+     * beneficiados = los de los nodos que mejoran estrictamente, empate el primero en red.nodos(), null si no
+     * hay candidatos.
+     * Costo: O(V + E·V) para armar el grafo y O(V³) de un solo Floyd, más O(V·D) para las latencias actuales y
+     * O(V²) para evaluar los candidatos (V candidatos × V nodos): O(V³) en total, contra O(V⁴) de la simple.
+     */
+    public RecomendacionDC recomendarDC() {
+        FloydWarshallResult<String> floyd = algoritmos.floyd(red.grafoRuteo());   // una sola vez
+
+        // latencia actual de cada nodo de acceso que hoy llega a algún data center
+        List<Nodo> acceso = new ArrayList<>();
+        Map<String, Double> actual = new LinkedHashMap<>();
+        for (Nodo n : red.nodos()) {
+            if (!n.getTipo().esDeAcceso()) continue;
+            double menor = Double.POSITIVE_INFINITY;
+            for (Nodo dc : red.dataCenters()) menor = Math.min(menor, floyd.getCost(dc.getId(), n.getId()));
+            if (menor == Double.POSITIVE_INFINITY) continue;   // hoy no tiene data center: no suma
+            acceso.add(n);
+            actual.put(n.getId(), menor);
+        }
+
+        RecomendacionDC mejor = null;
+        for (Nodo candidato : red.nodos()) {
+            if (candidato.esDataCenter()) continue;
+
+            double beneficio = 0;
+            int usuariosBeneficiados = 0;
+            for (Nodo n : acceso) {
+                double mejora = actual.get(n.getId()) - floyd.getCost(candidato.getId(), n.getId());   // fila del candidato
+                if (mejora > 0) {
+                    beneficio += n.getUsuarios() * mejora;
+                    usuariosBeneficiados += n.getUsuarios();
+                }
+            }
+            if (mejor == null || beneficio > mejor.getBeneficio()) {
+                mejor = new RecomendacionDC(candidato.getId(), beneficio, usuariosBeneficiados);
+            }
+        }
+        return mejor;
+    }
+
+    /**
      * Centro para ubicar un data center: el nodo que minimiza la mayor latencia desde él hacia los demás.
      * Se usa obtenerCentroGrafo sobre el grafo de ruteo invertido, porque el centro de la biblioteca mira la
      * columna (los otros hacia v) y en el invertido la columna es la fila del original. El invertido tiene,

@@ -127,6 +127,7 @@ public class Main {
             }
         }
         System.out.println("Nuevo data center recomendado (beneficio ponderado por usuarios): " + cdn.recomendarDCSimple());
+        System.out.println("  con la versión optimizada (un solo Floyd, Desafío 3): " + cdn.recomendarDC());
         System.out.println("Centro de la red (minimiza la peor latencia desde el nodo): " + cdn.centroParaDC());
     }
 
