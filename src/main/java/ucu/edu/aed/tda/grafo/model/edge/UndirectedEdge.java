@@ -7,8 +7,10 @@ public class UndirectedEdge<V, D> implements Edge<V, D> {
     private final D dato;
 
     public UndirectedEdge(V u, V v, D dato) {
-        this.a = Objects.requireNonNull(u);
-        this.b = Objects.requireNonNull(v);
+        if (u == null) throw new NullPointerException();
+        this.a = u;
+        if (v == null) throw new NullPointerException();
+        this.b = v;
         this.dato = dato;
     }
     public V source() { return a; }    // nombres “source/target” son nominales acá

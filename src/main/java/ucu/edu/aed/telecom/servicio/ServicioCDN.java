@@ -15,7 +15,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -32,7 +31,8 @@ public class ServicioCDN {
     private final DirectedGraphAlgorithms algoritmos = new DirectedGraphAlgorithms();
 
     public ServicioCDN(RedTelecom red) {
-        this.red = Objects.requireNonNull(red);
+        if (red == null) throw new NullPointerException();
+        this.red = red;
     }
 
     /** Asignación con los data centers de la red. Costo: O(V³). */
@@ -51,7 +51,7 @@ public class ServicioCDN {
      * Costo: O(V³) de Floyd más O(V·D) para elegir, con D la cantidad de data centers.
      */
     public AsignacionCDN asignarCDN(Set<String> dataCenters) {
-        Objects.requireNonNull(dataCenters);
+        if (dataCenters == null) throw new NullPointerException();
         for (String id : dataCenters) {
             if (red.nodo(id) == null) throw new IllegalArgumentException("El nodo " + id + " no está en la red");
         }

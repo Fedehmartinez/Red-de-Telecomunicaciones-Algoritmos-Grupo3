@@ -1,8 +1,8 @@
 package ucu.edu.aed.telecom.resultado;
 
-import ucu.edu.aed.telecom.modelo.Enlace;
-
 import java.util.List;
+
+import ucu.edu.aed.telecom.modelo.Enlace;
 
 /**
  * El cableado más barato: los enlaces a instalar y su costo total.
@@ -30,7 +30,7 @@ public class ResultadoCableado {
         return costoTotal;
     }
 
-    public boolean isConexo() {
+    public boolean existe() {
         return conexo;
     }
 }

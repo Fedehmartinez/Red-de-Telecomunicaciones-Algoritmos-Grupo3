@@ -11,7 +11,6 @@ import ucu.edu.aed.telecom.resultado.ResultadoCableado;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Diseño de cableado: conectar todos los nodos de la red con el menor costo total de instalación.
@@ -24,7 +23,8 @@ public class ServicioCableado {
     private final UndirectedGraphAlgorithms algoritmos = new UndirectedGraphAlgorithms();
 
     public ServicioCableado(RedTelecom red) {
-        this.red = Objects.requireNonNull(red);
+        if (red == null) throw new NullPointerException();
+        this.red = red;
     }
 
     /**

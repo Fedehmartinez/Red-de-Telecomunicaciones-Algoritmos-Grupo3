@@ -1,18 +1,18 @@
 package ucu.edu.aed.telecom.resultado;
 
-import junit.framework.TestCase;
-import ucu.edu.aed.tda.grafo.DirectedGraph;
-import ucu.edu.aed.tda.grafo.DirectedGraphAlgorithms;
-import ucu.edu.aed.tda.grafo.model.edge.WeightedEdge;
-import ucu.edu.aed.telecom.modelo.Enlace;
-import ucu.edu.aed.telecom.modelo.TipoEnlace;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import junit.framework.TestCase;
+import ucu.edu.aed.tda.grafo.DirectedGraph;
+import ucu.edu.aed.tda.grafo.DirectedGraphAlgorithms;
+import ucu.edu.aed.tda.grafo.model.edge.WeightedEdge;
+import ucu.edu.aed.telecom.modelo.Enlace;
+import ucu.edu.aed.telecom.modelo.TipoEnlace;
 
 /** Las clases de resultado: convenciones, copias defensivas y la tabla de ruteo sobre Floyd. */
 public class ResultadosTest extends TestCase {
@@ -163,7 +163,7 @@ public class ResultadosTest extends TestCase {
         enlaces.clear();
         assertEquals(List.of(e), r.getEnlaces());
         assertEquals(4.0, r.getCostoTotal(), DELTA);
-        assertFalse(r.isConexo());
+        assertFalse(r.existe());
     }
 
     public void testRecomendacionYDiametro() {

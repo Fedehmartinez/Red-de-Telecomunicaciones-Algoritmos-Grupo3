@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -33,7 +32,8 @@ public class ServicioResiliencia {
     private final DirectedGraphAlgorithms recorridos = new DirectedGraphAlgorithms();
 
     public ServicioResiliencia(RedTelecom red) {
-        this.red = Objects.requireNonNull(red);
+        if (red == null) throw new NullPointerException();
+        this.red = red;
     }
 
     /**

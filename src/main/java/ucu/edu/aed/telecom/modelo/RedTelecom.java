@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -40,7 +39,7 @@ public class RedTelecom {
 
     /** Devuelve false si ya hay un nodo con ese id. */
     public boolean agregarNodo(Nodo nodo) {
-        Objects.requireNonNull(nodo);
+        if (nodo == null) throw new NullPointerException();
         if (nodos.containsKey(nodo.getId())) return false;
         nodos.put(nodo.getId(), nodo);
         return true;
@@ -48,7 +47,7 @@ public class RedTelecom {
 
     /** Devuelve false si falta alguno de los dos extremos o si ya hay un enlace entre ellos (en cualquier orden). */
     public boolean agregarEnlace(Enlace enlace) {
-        Objects.requireNonNull(enlace);
+        if (enlace == null) throw new NullPointerException();
         if (!nodos.containsKey(enlace.getA()) || !nodos.containsKey(enlace.getB())) return false;
         List<String> clave = clave(enlace.getA(), enlace.getB());
         if (enlaces.containsKey(clave)) return false;
@@ -108,8 +107,8 @@ public class RedTelecom {
      */
     public DirectedGraph<String, WeightedEdge> grafoRuteo(double anchoBandaMinimo, Set<String> nodosCaidos, Set<Enlace> enlacesCaidos) {
         if (Double.isNaN(anchoBandaMinimo)) throw new IllegalArgumentException("Ancho de banda mínimo inválido");
-        Objects.requireNonNull(nodosCaidos);
-        Objects.requireNonNull(enlacesCaidos);
+        if (nodosCaidos == null) throw new NullPointerException();
+        if (enlacesCaidos == null) throw new NullPointerException();
 
         DirectedGraph<String, WeightedEdge> grafo = new DirectedGraph<>();
         for (String id : nodos.keySet()) {
@@ -139,8 +138,8 @@ public class RedTelecom {
      * Los ids caídos que no son de la red se ignoran.
      */
     public UndirectedGraph<String, WeightedEdge> grafoResiliencia(Set<String> nodosCaidos, Set<Enlace> enlacesCaidos) {
-        Objects.requireNonNull(nodosCaidos);
-        Objects.requireNonNull(enlacesCaidos);
+        if (nodosCaidos == null) throw new NullPointerException();
+        if (enlacesCaidos == null) throw new NullPointerException();
 
         UndirectedGraph<String, WeightedEdge> grafo = new UndirectedGraph<>();
         for (String id : nodos.keySet()) {

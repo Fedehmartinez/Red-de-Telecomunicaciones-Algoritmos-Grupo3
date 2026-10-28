@@ -1,9 +1,5 @@
 package ucu.edu.aed.telecom.benchmark;
 
-import ucu.edu.aed.telecom.modelo.RedTelecom;
-import ucu.edu.aed.telecom.resultado.RecomendacionDC;
-import ucu.edu.aed.telecom.servicio.ServicioCDN;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
+import ucu.edu.aed.telecom.modelo.RedTelecom;
+import ucu.edu.aed.telecom.resultado.RecomendacionDC;
+import ucu.edu.aed.telecom.servicio.ServicioCDN;
 
 /**
  * Experimento del Desafío 3: compara recomendarDCSimple (O(V⁴), un Floyd por candidato) con recomendarDC
@@ -84,7 +84,7 @@ public final class BenchmarkCDN {
         System.out.println("Resultados guardados en " + salida);
     }
 
-    /** Si la optimizada no da lo mismo que la simple, medir no tiene sentido. */
+    // solo se mira si la optimizada da igual que la simple
     private static void verificarQueDanLoMismo(ServicioCDN cdn, int v) {
         RecomendacionDC simple = cdn.recomendarDCSimple();
         RecomendacionDC optimizada = cdn.recomendarDC();

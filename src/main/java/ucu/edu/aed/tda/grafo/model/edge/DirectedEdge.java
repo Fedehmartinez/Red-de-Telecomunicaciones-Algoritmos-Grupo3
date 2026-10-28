@@ -7,8 +7,10 @@ public class DirectedEdge<V, D> implements Edge<V, D> {
     private final D dato;
 
     public DirectedEdge(V source, V target, D dato) {
-        this.source = Objects.requireNonNull(source);
-        this.target = Objects.requireNonNull(target);
+        if (source == null) throw new NullPointerException();
+        this.source = source;
+        if (target == null) throw new NullPointerException();
+        this.target = target;
         this.dato = dato;
     }
 

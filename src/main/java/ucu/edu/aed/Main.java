@@ -1,5 +1,11 @@
 package ucu.edu.aed;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
 import ucu.edu.aed.telecom.modelo.CargadorRed;
 import ucu.edu.aed.telecom.modelo.Enlace;
 import ucu.edu.aed.telecom.modelo.Nodo;
@@ -16,12 +22,6 @@ import ucu.edu.aed.telecom.servicio.ServicioCableado;
 import ucu.edu.aed.telecom.servicio.ServicioConsultas;
 import ucu.edu.aed.telecom.servicio.ServicioResiliencia;
 import ucu.edu.aed.telecom.servicio.ServicioRuteo;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * Demostración del sistema con la red de ejemplo: ruteo, cableado, resiliencia, CDN y las cinco consultas.
@@ -88,7 +88,7 @@ public class Main {
         for (Enlace e : red.enlaces()) costoTodos += e.getCosto();
         ResultadoCableado minimo = cableado.cableadoMinimo();
         System.out.println("Red completa: " + minimo.getEnlaces().size() + " enlaces, costo " + minimo.getCostoTotal()
-                + " (todos los enlaces cuestan " + costoTodos + "), conexo: " + (minimo.isConexo() ? "sí" : "no"));
+                + " (todos los enlaces cuestan " + costoTodos + "), conexo: " + (minimo.existe() ? "sí" : "no"));
 
         // planificación de oficinas nuevas: las oficinas y las conexiones posibles con su costo
         RedTelecom plan = new RedTelecom();

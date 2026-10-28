@@ -1,5 +1,11 @@
 package ucu.edu.aed.telecom.servicio;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
 import junit.framework.TestCase;
 import ucu.edu.aed.tda.grafo.IUndirectedGraph;
 import ucu.edu.aed.tda.grafo.UndirectedGraph;
@@ -13,12 +19,6 @@ import ucu.edu.aed.telecom.modelo.RedTelecom;
 import ucu.edu.aed.telecom.modelo.TipoEnlace;
 import ucu.edu.aed.telecom.modelo.TipoNodo;
 import ucu.edu.aed.telecom.resultado.ResultadoCableado;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 public class ServicioCableadoTest extends TestCase {
 
@@ -80,7 +80,7 @@ public class ServicioCableadoTest extends TestCase {
         ResultadoCableado r = cableado.cableadoMinimo();
         assertTrue(r.getEnlaces().isEmpty());
         assertEquals(0.0, r.getCostoTotal(), DELTA);
-        assertTrue(r.isConexo());
+        assertTrue(r.existe());
     }
 
     public void testUnaSolaOficina() {
@@ -88,14 +88,14 @@ public class ServicioCableadoTest extends TestCase {
         ResultadoCableado r = cableado.cableadoMinimo();
         assertTrue(r.getEnlaces().isEmpty());
         assertEquals(0.0, r.getCostoTotal(), DELTA);
-        assertTrue(r.isConexo());
+        assertTrue(r.existe());
     }
 
     public void testDosOficinasSinConexionPosible() {
         oficinas("A", "B");
         ResultadoCableado r = cableado.cableadoMinimo();
         assertTrue(r.getEnlaces().isEmpty());
-        assertFalse(r.isConexo());
+        assertFalse(r.existe());
     }
 
     public void testRedQueYaEsUnArbolSeQuedaIgual() {
@@ -106,7 +106,7 @@ public class ServicioCableadoTest extends TestCase {
         ResultadoCableado r = cableado.cableadoMinimo();
         assertEquals(3, r.getEnlaces().size());
         assertEquals(19.0, r.getCostoTotal(), DELTA);
-        assertTrue(r.isConexo());
+        assertTrue(r.existe());
     }
 
     // ---- ejemplos ----
@@ -115,7 +115,7 @@ public class ServicioCableadoTest extends TestCase {
         oficinasDelTeorico();
         ResultadoCableado r = cableado.cableadoMinimo();
         assertEquals(15.0, r.getCostoTotal(), DELTA);
-        assertTrue(r.isConexo());
+        assertTrue(r.existe());
         assertEquals(5, r.getEnlaces().size());
         assertTrue(tiene(r, "1", "3"));
         assertTrue(tiene(r, "4", "6"));
@@ -164,7 +164,7 @@ public class ServicioCableadoTest extends TestCase {
         ResultadoCableado r = cableado.cableadoMinimo();
         assertEquals(3, r.getEnlaces().size());
         assertEquals(6.0, r.getCostoTotal(), DELTA);
-        assertTrue(r.isConexo());
+        assertTrue(r.existe());
         assertTrue(esArbolDe(r, Set.of("A", "B", "C", "D")));
     }
 
@@ -176,7 +176,7 @@ public class ServicioCableadoTest extends TestCase {
         conexion("A", "C", 1);
         conexion("X", "Y", 8);
         ResultadoCableado r = cableado.cableadoMinimo();
-        assertFalse(r.isConexo());
+        assertFalse(r.existe());
         assertEquals(3, r.getEnlaces().size());
         assertEquals(11.0, r.getCostoTotal(), DELTA);
         assertTrue(tiene(r, "A", "C"));
@@ -189,7 +189,7 @@ public class ServicioCableadoTest extends TestCase {
         oficinasDelTeorico();
         oficinas("7");
         ResultadoCableado r = cableado.cableadoMinimo();
-        assertFalse(r.isConexo());
+        assertFalse(r.existe());
         assertEquals(15.0, r.getCostoTotal(), DELTA);
     }
 
@@ -231,7 +231,7 @@ public class ServicioCableadoTest extends TestCase {
             for (Edge<String, WeightedEdge> e : prim.aristas()) costoPrim += e.dato().getWeight();
 
             assertEquals("prueba " + prueba, costoPrim, r.getCostoTotal(), DELTA);
-            assertTrue("prueba " + prueba, r.isConexo());
+            assertTrue("prueba " + prueba, r.existe());
             assertTrue("prueba " + prueba, esArbolDe(r, Set.of(ids)));
         }
     }
@@ -253,7 +253,7 @@ public class ServicioCableadoTest extends TestCase {
     public void testDatosDeEjemplo() throws IOException {
         red = datosDeEjemplo();
         ResultadoCableado r = new ServicioCableado(red).cableadoMinimo();
-        assertTrue(r.isConexo());
+        assertTrue(r.existe());
         assertEquals(red.nodos().size() - 1, r.getEnlaces().size());
 
         double costoPrim = 0;

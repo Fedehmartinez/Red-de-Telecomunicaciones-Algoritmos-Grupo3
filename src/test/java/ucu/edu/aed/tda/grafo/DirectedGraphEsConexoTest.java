@@ -2,9 +2,6 @@ package ucu.edu.aed.tda.grafo;
 
 import junit.framework.TestCase;
 import ucu.edu.aed.tda.grafo.model.edge.WeightedEdge;
-import ucu.edu.aed.utils.GrafoLoader;
-
-import java.nio.file.Path;
 
 public class DirectedGraphEsConexoTest extends TestCase {
 
@@ -78,14 +75,53 @@ public class DirectedGraphEsConexoTest extends TestCase {
     }
 
     /** Red del Ejercicio 3: Warshall da todo 1, así que hay camino entre cualquier par. */
-    public void testRedDelEjercicio3EsConexo() throws Exception {
-        assertTrue(GrafoLoader.cargar(Path.of("src/main/resources/ut04/aeropuertos.txt"),
-                Path.of("src/main/resources/ut04/conexiones.txt")).esConexo());
+    public void testRedDelEjercicio3EsConexo() {
+        vertices("Asuncion", "Buenos_Aires", "Curitiba", "Montevideo", "Porto_Alegre", "Rio_de_Janeiro", "San_Pablo", "Santos");
+        arista("Asuncion", "Buenos_Aires");
+        arista("Asuncion", "Curitiba");
+        arista("Asuncion", "Porto_Alegre");
+        arista("Buenos_Aires", "Asuncion");
+        arista("Buenos_Aires", "Montevideo");
+        arista("Buenos_Aires", "Porto_Alegre");
+        arista("Curitiba", "Rio_de_Janeiro");
+        arista("Montevideo", "Buenos_Aires");
+        arista("Montevideo", "Porto_Alegre");
+        arista("Montevideo", "San_Pablo");
+        arista("Porto_Alegre", "Montevideo");
+        arista("Porto_Alegre", "San_Pablo");
+        arista("Porto_Alegre", "Santos");
+        arista("Rio_de_Janeiro", "Curitiba");
+        arista("Rio_de_Janeiro", "San_Pablo");
+        arista("Rio_de_Janeiro", "Santos");
+        arista("San_Pablo", "Asuncion");
+        arista("San_Pablo", "Curitiba");
+        arista("San_Pablo", "Montevideo");
+        arista("San_Pablo", "Porto_Alegre");
+        arista("San_Pablo", "Rio_de_Janeiro");
+        arista("San_Pablo", "Santos");
+        arista("Santos", "Porto_Alegre");
+        arista("Santos", "San_Pablo");
+        assertTrue(grafo.esConexo());
     }
 
-    /** Archivos _2 del Ejercicio 6: a Montevideo se llega pero de Montevideo no se sale. */
-    public void testRedDelEjercicio6NoEsConexo() throws Exception {
-        assertFalse(GrafoLoader.cargar(Path.of("src/main/resources/ut04/aeropuertos_2.txt"),
-                Path.of("src/main/resources/ut04/conexiones_2.txt")).esConexo());
+    /** Red del Ejercicio 6: a Montevideo se llega pero de Montevideo no se sale. */
+    public void testRedDelEjercicio6NoEsConexo() {
+        vertices("Asuncion", "Buenos_Aires", "Curitiba", "Florianopolis", "Montevideo", "Porto_Alegre", "Rio_de_Janeiro", "San_Pablo", "Santos");
+        arista("Asuncion", "Buenos_Aires");
+        arista("Asuncion", "Curitiba");
+        arista("Asuncion", "Porto_Alegre");
+        arista("Buenos_Aires", "Montevideo");
+        arista("Buenos_Aires", "Porto_Alegre");
+        arista("Curitiba", "Montevideo");
+        arista("Florianopolis", "Rio_de_Janeiro");
+        arista("Florianopolis", "San_Pablo");
+        arista("Porto_Alegre", "Montevideo");
+        arista("Rio_de_Janeiro", "San_Pablo");
+        arista("Rio_de_Janeiro", "Santos");
+        arista("San_Pablo", "Florianopolis");
+        arista("San_Pablo", "Rio_de_Janeiro");
+        arista("San_Pablo", "Santos");
+        arista("Santos", "San_Pablo");
+        assertFalse(grafo.esConexo());
     }
 }

@@ -5,7 +5,6 @@ import ucu.edu.aed.telecom.resultado.ResultadoDiametro;
 import ucu.edu.aed.telecom.resultado.RutaResultado;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Las cinco consultas propias del sistema. Ninguna muestra datos guardados tal cual: todas resuelven algo
@@ -18,9 +17,12 @@ public class ServicioConsultas {
     private final ServicioCDN cdn;
 
     public ServicioConsultas(ServicioRuteo ruteo, ServicioResiliencia resiliencia, ServicioCDN cdn) {
-        this.ruteo = Objects.requireNonNull(ruteo);
-        this.resiliencia = Objects.requireNonNull(resiliencia);
-        this.cdn = Objects.requireNonNull(cdn);
+        if (ruteo == null) throw new NullPointerException();
+        this.ruteo = ruteo;
+        if (resiliencia == null) throw new NullPointerException();
+        this.resiliencia = resiliencia;
+        if (cdn == null) throw new NullPointerException();
+        this.cdn = cdn;
     }
 
     /**

@@ -12,7 +12,6 @@ import ucu.edu.aed.telecom.resultado.RutaResultado;
 import ucu.edu.aed.telecom.resultado.TablaRuteo;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -31,7 +30,8 @@ public class ServicioRuteo {
     private final DirectedGraphAlgorithms algoritmos = new DirectedGraphAlgorithms();
 
     public ServicioRuteo(RedTelecom red) {
-        this.red = Objects.requireNonNull(red);
+        if (red == null) throw new NullPointerException();
+        this.red = red;
     }
 
     private void verificar(String id) {
