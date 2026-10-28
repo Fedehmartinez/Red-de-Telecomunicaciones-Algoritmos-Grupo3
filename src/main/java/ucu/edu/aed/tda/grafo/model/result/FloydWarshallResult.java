@@ -1,7 +1,6 @@
 package ucu.edu.aed.tda.grafo.model.result;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +64,7 @@ public class FloydWarshallResult<V> implements IFloydWarshallResult<V> {
      */
     @Override
     public List<V> getPath(V source, V target) {
-        if (!connected(source, target)) return Collections.emptyList();
+        if (!connected(source, target)) return new ArrayList<>();
         List<V> camino = new ArrayList<>();
         camino.add(source);
         // en Floyd ir de un vértice a sí mismo cuesta 0 y el camino es él solo;

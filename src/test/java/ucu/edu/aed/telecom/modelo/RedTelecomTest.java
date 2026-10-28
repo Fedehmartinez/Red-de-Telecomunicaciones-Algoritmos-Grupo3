@@ -113,25 +113,6 @@ public class RedTelecomTest extends TestCase {
         assertEquals(List.of("CA", "BA"), extremos);
     }
 
-    public void testVistasInmodificables() {
-        routers("R1", "R2");
-        fibra("R1", "R2");
-        try {
-            red.nodos().clear();
-            fail("Debía lanzar UnsupportedOperationException");
-        } catch (UnsupportedOperationException esperada) {
-            // ok
-        }
-        try {
-            red.enlaces().clear();
-            fail("Debía lanzar UnsupportedOperationException");
-        } catch (UnsupportedOperationException esperada) {
-            // ok
-        }
-        assertEquals(2, red.nodos().size());
-        assertEquals(1, red.enlaces().size());
-    }
-
     public void testDataCentersEnOrden() {
         red.agregarNodo(new Nodo("DC2", TipoNodo.DATA_CENTER, 100, 0));
         red.agregarNodo(new Nodo("R1", TipoNodo.ROUTER, 10, 0));

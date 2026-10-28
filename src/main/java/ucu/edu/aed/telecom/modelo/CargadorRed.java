@@ -5,16 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-/**
- * Carga una RedTelecom desde dos archivos CSV (coma como separador, sin espacios, punto decimal):
- * nodos: "id,tipo,capacidad,usuarios" por línea.
- * enlaces: "a,b,tipo,latenciaAB,latenciaBA,anchoBanda,costo" por línea.
- * Las líneas que empiezan con # son comentarios y las vacías se ignoran; la primera línea que no es
- * comentario es el encabezado y se saltea.
- * Si una línea está mal (cantidad de campos, número inválido, tipo desconocido, datos que el Nodo o el
- * Enlace rechazan, nodo o enlace repetido, extremo inexistente) se lanza IllegalArgumentException con el
- * nombre del archivo y el número de línea. Los datos malos cortan la carga.
- */
+// Carga una RedTelecom desde dos CSV: nodos (id,tipo,capacidad,usuarios) y
+// enlaces (a,b,tipo,latenciaAB,latenciaBA,anchoBanda,costo).
+// Ignora las líneas vacías y las que empiezan con #, y saltea el encabezado.
+// Si una línea está mal tira IllegalArgumentException con el archivo y el número de línea.
 public final class CargadorRed {
 
     private static final int CAMPOS_NODO = 4;

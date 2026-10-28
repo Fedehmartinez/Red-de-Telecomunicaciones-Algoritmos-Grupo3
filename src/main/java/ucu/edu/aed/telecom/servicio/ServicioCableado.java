@@ -12,11 +12,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Diseño de cableado: conectar todos los nodos de la red con el menor costo total de instalación.
- * Para planificar oficinas o edificios nuevos se arma una RedTelecom con esos nodos y las conexiones
- * posibles entre ellos, cada una con su costo, y se le pide el cableado mínimo.
- */
+// Diseño de cableado: conecta todos los nodos con el menor costo total de instalación.
+// Para oficinas nuevas se arma una RedTelecom con esas oficinas y las conexiones posibles
 public class ServicioCableado {
 
     private final RedTelecom red;
@@ -27,15 +24,8 @@ public class ServicioCableado {
         this.red = red;
     }
 
-    /**
-     * Árbol abarcador de costo mínimo: Kruskal sobre grafoCableado() (no dirigido, peso costo). Cada arista
-     * del árbol se vuelve a buscar en la red (O(1)) para devolver el Enlace con todos sus datos. Los enlaces
-     * quedan ordenados de menor a mayor costo.
-     * Si no se pueden conectar todos, Kruskal devuelve el bosque de costo mínimo (un árbol por cada parte que
-     * sí se puede unir) y conexo es false: un árbol de V nodos tiene V - 1 enlaces, un bosque tiene menos.
-     * Una red vacía o de un solo nodo ya está conectada (sin enlaces, costo 0).
-     * Costo: O(V + E·V) para armar el grafo, O(E log E + V²) de Kruskal y O(V log V) para ordenar el resultado.
-     */
+    // Árbol abarcador de costo mínimo con Kruskal sobre el grafo de cableado. Devuelve los enlaces ordenados por costo.
+    // Si no se puede conectar todo devuelve el bosque de costo mínimo y conexo en false
     public ResultadoCableado cableadoMinimo() {
         IUndirectedGraph<String, WeightedEdge> arbol = algoritmos.kruskal(red.grafoCableado());
 

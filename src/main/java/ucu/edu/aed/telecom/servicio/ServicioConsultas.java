@@ -6,10 +6,7 @@ import ucu.edu.aed.telecom.resultado.RutaResultado;
 
 import java.util.List;
 
-/**
- * Las cinco consultas propias del sistema. Ninguna muestra datos guardados tal cual: todas resuelven algo
- * con los grafos y los algoritmos de la biblioteca, a través del servicio que corresponde.
- */
+// Las cinco consultas propias del sistema; cada una se resuelve con el servicio que corresponde
 public class ServicioConsultas {
 
     private final ServicioRuteo ruteo;
@@ -25,39 +22,27 @@ public class ServicioConsultas {
         this.cdn = cdn;
     }
 
-    /**
-     * 1. Ruta de menor latencia que garantiza un ancho de banda mínimo (por ejemplo, para video o un backup
-     * grande): el camino más rápido no sirve si pasa por un enlace angosto. Se resuelve con el servicio de ruteo.
-     */
+    // 1. Ruta de menor latencia que garantiza un ancho de banda mínimo (por ejemplo para video o un backup)
     public RutaResultado rutaConAnchoBandaMinimo(String origen, String destino, double anchoBandaMinimo) {
         return ruteo.rutaConAnchoBandaMinimo(origen, destino, anchoBandaMinimo);
     }
 
-    /**
-     * 2. Qué pasa si cae un nodo: qué nodos quedan sin data center y cuántos usuarios se ven afectados.
-     * Se resuelve con el servicio de resiliencia.
-     */
+    // 2. Qué pasa si cae un nodo: qué nodos quedan sin data center y cuántos usuarios se afectan
     public ImpactoFalla queOcurreSiCae(String nodo) {
         return resiliencia.impactoFallaNodo(nodo);
     }
 
-    /**
-     * 3. Ranking de nodos críticos por usuarios afectados: dónde conviene invertir primero en redundancia.
-     * Se resuelve con el servicio de resiliencia.
-     */
+    // 3. Ranking de nodos críticos por usuarios afectados, para saber dónde invertir primero en redundancia
     public List<ImpactoFalla> rankingNodosCriticos() {
         return resiliencia.rankingCriticosSimple();
     }
 
-    /** 4. Diámetro de la red: el peor caso de latencia entre dos nodos. Se resuelve con el servicio de ruteo. */
+    // 4. Diámetro de la red: el peor caso de latencia entre dos nodos
     public ResultadoDiametro diametro() {
         return ruteo.diametro();
     }
 
-    /**
-     * 5. Nodos de acceso que superan una latencia máxima respecto a su data center (no cumplen el servicio).
-     * Se resuelve con el servicio de CDN.
-     */
+    // 5. Nodos de acceso que superan una latencia máxima respecto a su data center
     public List<String> nodosQueSuperanLatencia(double latenciaMaxima) {
         return cdn.nodosQueSuperanLatencia(latenciaMaxima);
     }

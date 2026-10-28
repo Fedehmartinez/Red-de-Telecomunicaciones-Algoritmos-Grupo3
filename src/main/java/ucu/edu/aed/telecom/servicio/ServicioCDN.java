@@ -17,14 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Distribución de contenido: cada nodo es atendido por el data center con menor latencia, y se recomienda
- * dónde poner un data center nuevo. El contenido va del data center al usuario, así que la latencia que
- * importa es DC -> nodo (la fila de la matriz de Floyd), no nodo -> DC.
- *
- * Costos, con V nodos y E enlaces: armar el grafo de ruteo cuesta O(V + E·V) y Floyd O(V³), así que
- * calcular una asignación cuesta O(V³).
- */
+// Distribución de contenido: cada nodo lo atiende el data center de menor latencia y se recomienda dónde poner uno nuevo.
+// La latencia que importa es la del data center hacia el nodo (la fila de Floyd)
 public class ServicioCDN {
 
     private final RedTelecom red;
@@ -35,21 +29,15 @@ public class ServicioCDN {
         this.red = red;
     }
 
-    /** Asignación con los data centers de la red. Costo: O(V³). */
+    // Asigna cada nodo a un data center de la red. Costo O(V³)
     public AsignacionCDN asignarCDN() {
         Set<String> dataCenters = new LinkedHashSet<>();
         for (Nodo dc : red.dataCenters()) dataCenters.add(dc.getId());
         return asignarCDN(dataCenters);
     }
 
-    /**
-     * A cada nodo, el data center (de los dados) con menor latencia DC -> nodo. Se calcula Floyd sobre
-     * grafoRuteo() en cada llamada (versión simple, sin guardar la matriz) y para cada nodo se recorren los
-     * data centers mirando la fila de cada uno. Un data center se atiende a sí mismo con latencia 0. Si
-     * ningún data center llega a un nodo, dcDe es null y la latencia infinita. Empate: el data center que
-     * aparece primero en red.nodos(). Ids que no son de la red: IllegalArgumentException.
-     * Costo: O(V³) de Floyd más O(V·D) para elegir, con D la cantidad de data centers.
-     */
+    // A cada nodo le asigna, entre los data centers dados, el de menor latencia (con Floyd). Si ninguno llega, dcDe es null.
+    // Empate: el primero en red.nodos(). Costo O(V³)
     public AsignacionCDN asignarCDN(Set<String> dataCenters) {
         if (dataCenters == null) throw new NullPointerException();
         for (String id : dataCenters) {
@@ -80,14 +68,8 @@ public class ServicioCDN {
         return new AsignacionCDN(dcPorNodo, latenciaPorNodo);
     }
 
-    /**
-     * Versión simple de la recomendación: para cada nodo que no es data center, se lo agrega como uno y se
-     * vuelve a llamar a asignarCDN. El beneficio es la suma, sobre los nodos de acceso, de usuarios × (latencia
-     * actual - latencia nueva); los usuarios beneficiados son los de los nodos que mejoran estrictamente. Los
-     * nodos sin data center alcanzable hoy no suman. Gana el de mayor beneficio (empate: el primero en
-     * red.nodos()); null si no hay candidatos. Nunca recomienda un data center que ya existe.
-     * Costo: C candidatos × O(V³) de cada asignación, o sea O(V⁴).
-     */
+    // Recomienda dónde poner un data center nuevo, versión simple: prueba cada nodo como candidato y vuelve a calcular la asignación.
+    // Beneficio = suma de usuarios × mejora de latencia en los nodos de acceso. Costo O(V⁴)
     public RecomendacionDC recomendarDCSimple() {
         Set<String> actuales = new LinkedHashSet<>();
         for (Nodo dc : red.dataCenters()) actuales.add(dc.getId());
@@ -120,19 +102,8 @@ public class ServicioCDN {
         return mejor;
     }
 
-    /**
-     * Versión optimizada de recomendarDCSimple (Desafío 3), da exactamente el mismo resultado.
-     * La simple recalcula Floyd para cada candidato, pero agregar un data center no cambia ni los enlaces ni las
-     * latencias: la matriz es siempre la misma. Acá se calcula Floyd una sola vez y se guarda la latencia actual
-     * de cada nodo de acceso a su data center (el mínimo de la fila de cada DC). Si el candidato c pasa a ser
-     * data center, la nueva latencia de u es min(actual(u), dist(c -> u)), así que
-     * beneficio(c) = suma de usuarios(u) · max(0, actual(u) - dist(c -> u)), mirando la fila de c.
-     * Mismas reglas que la simple: solo nodos de acceso, los que hoy no llegan a ningún DC no suman, usuarios
-     * beneficiados = los de los nodos que mejoran estrictamente, empate el primero en red.nodos(), null si no
-     * hay candidatos.
-     * Costo: O(V + E·V) para armar el grafo y O(V³) de un solo Floyd, más O(V·D) para las latencias actuales y
-     * O(V²) para evaluar los candidatos (V candidatos × V nodos): O(V³) en total, contra O(V⁴) de la simple.
-     */
+    // Misma recomendación que recomendarDCSimple pero con un solo Floyd (Desafío 3), porque agregar un data center no cambia las latencias.
+    // La nueva latencia de un nodo es min(actual, dist(candidato -> nodo)). Costo O(V³)
     public RecomendacionDC recomendarDC() {
         FloydWarshallResult<String> floyd = algoritmos.floyd(red.grafoRuteo());   // una sola vez
 
@@ -168,13 +139,8 @@ public class ServicioCDN {
         return mejor;
     }
 
-    /**
-     * Centro para ubicar un data center: el nodo que minimiza la mayor latencia desde él hacia los demás.
-     * Se usa obtenerCentroGrafo sobre el grafo de ruteo invertido, porque el centro de la biblioteca mira la
-     * columna (los otros hacia v) y en el invertido la columna es la fila del original. El invertido tiene,
-     * para cada enlace a-b, el arco b -> a con latenciaAB y el arco a -> b con latenciaBA.
-     * null si la red está vacía. Costo: O(V + E·V) para armar el grafo más O(V³) de Floyd.
-     */
+    // Nodo que minimiza la mayor latencia que sale de él hacia los demás. Usa el grafo de ruteo invertido
+    // porque el centro de la biblioteca mira la columna de la matriz. Costo O(V³)
     public String centroParaDC() {
         DirectedGraph<String, WeightedEdge> invertido = new DirectedGraph<>();
         for (Nodo n : red.nodos()) invertido.agregarVertice(n.getId());
@@ -185,11 +151,7 @@ public class ServicioCDN {
         return algoritmos.obtenerCentroGrafo(invertido);
     }
 
-    /**
-     * Nodos de acceso cuya latencia a su data center supera el máximo (o que no tienen data center), de mayor
-     * a menor latencia; igual a max no cuenta. Empate: orden de red.nodos(). Costo: O(V³) de la asignación
-     * más O(V log V) para ordenar.
-     */
+    // Nodos de acceso que superan la latencia máxima hasta su data center (o no tienen), de mayor a menor latencia. Costo O(V³)
     public List<String> nodosQueSuperanLatencia(double latenciaMaxima) {
         AsignacionCDN asignacion = asignarCDN();
         List<String> resultado = new ArrayList<>();

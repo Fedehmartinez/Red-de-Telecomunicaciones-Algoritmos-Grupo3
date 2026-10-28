@@ -2,12 +2,9 @@ package ucu.edu.aed.telecom.resultado;
 
 import java.util.List;
 
-/**
- * Una ruta por la red: los nodos por los que pasa (origen y destino incluidos), cuánto tarda en total y el
- * ancho de banda del enlace más angosto, que es lo máximo que puede pasar por toda la ruta.
- * Convenciones: sin ruta = lista vacía, latencia infinita y cuello 0; ruta de un solo nodo (origen igual a
- * destino) = latencia 0 y cuello infinito, porque no atraviesa ningún enlace.
- */
+// Una ruta por la red: los nodos por los que pasa (origen y destino incluidos), la latencia total
+// y el ancho de banda del enlace más angosto.
+// Sin ruta: lista vacía, latencia infinita y cuello 0. Origen igual a destino: latencia 0 y cuello infinito
 public class RutaResultado {
 
     private final List<String> nodos;
@@ -28,7 +25,7 @@ public class RutaResultado {
         return !nodos.isEmpty();
     }
 
-    /** Los nodos de la ruta en orden (lista inmodificable). */
+    // Los nodos de la ruta en orden
     public List<String> getNodos() {
         return nodos;
     }

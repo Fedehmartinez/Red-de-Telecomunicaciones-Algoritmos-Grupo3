@@ -157,8 +157,8 @@ public final class PrettyGrid {
         for (T[] r : a) cols = Math.max(cols, r == null ? 0 : r.length);
 
         // Normalizar labels a tamaño real
-        java.util.List<String> colL = colLabels != null ? colLabels : java.util.Collections.emptyList();
-        java.util.List<String> rowL = rowLabels != null ? rowLabels : java.util.Collections.emptyList();
+        java.util.List<String> colL = colLabels != null ? colLabels : new java.util.ArrayList<>();
+        java.util.List<String> rowL = rowLabels != null ? rowLabels : new java.util.ArrayList<>();
         String corner = cornerLabel == null ? "" : cornerLabel;
 
         if (colL.size() < cols) {

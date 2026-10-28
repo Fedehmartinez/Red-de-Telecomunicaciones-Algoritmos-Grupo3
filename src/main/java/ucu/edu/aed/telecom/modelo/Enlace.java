@@ -2,14 +2,9 @@ package ucu.edu.aed.telecom.modelo;
 
 import java.util.Objects;
 
-/**
- * Un cable o radioenlace entre dos nodos (por id). De acá salen los pesos de los grafos:
- * la latencia para el ruteo (una por cada sentido, porque puede ser asimétrica) y el costo para el cableado.
- * El ancho de banda no es un peso: se usa para filtrar enlaces.
- * Unidades: latencia en ms, ancho de banda en Mbps, costo de instalación en miles de USD.
- * Entre dos nodos hay como máximo un enlace, así que dos enlaces son iguales si unen el mismo par,
- * sin importar el orden.
- */
+// Un cable entre dos nodos (por id). Guarda la latencia en cada sentido, el ancho de banda y el costo.
+// La latencia sirve para el ruteo y el costo para el cableado; el ancho de banda se usa para filtrar enlaces.
+// Unidades: ms, Mbps y miles de USD. Dos enlaces son iguales si unen el mismo par, sin importar el orden.
 public class Enlace {
 
     private final String a;
@@ -75,7 +70,7 @@ public class Enlace {
         return costo;
     }
 
-    /** Latencia saliendo desde el extremo "origen" hacia el otro. */
+    // Latencia saliendo desde el extremo origen hacia el otro
     public double latenciaDesde(String origen) {
         if (a.equals(origen)) return latenciaAB;
         if (b.equals(origen)) return latenciaBA;
@@ -95,7 +90,7 @@ public class Enlace {
         return (a.equals(otro.a) && b.equals(otro.b)) || (a.equals(otro.b) && b.equals(otro.a));
     }
 
-    /** Igual que en UndirectedEdge: combinación que no depende del orden de los extremos. */
+    // Mismo hash sin importar el orden de los extremos
     @Override
     public int hashCode() {
         int h1 = Objects.hashCode(a);

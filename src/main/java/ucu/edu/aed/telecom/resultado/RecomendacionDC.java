@@ -1,9 +1,7 @@
 package ucu.edu.aed.telecom.resultado;
 
-/**
- * Dónde conviene poner un data center nuevo: el nodo candidato, su beneficio (usuarios por mejora de latencia,
- * en usuarios·ms) y cuántos usuarios pasan a tener menos latencia.
- */
+// Dónde conviene poner un data center nuevo: el nodo candidato, su beneficio (usuarios por ms de mejora)
+// y cuántos usuarios pasan a tener menos latencia
 public class RecomendacionDC {
 
     private final String nodoCandidato;

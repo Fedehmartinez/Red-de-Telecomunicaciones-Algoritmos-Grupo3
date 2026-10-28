@@ -1,9 +1,6 @@
 package ucu.edu.aed.telecom.modelo;
 
-/**
- * Tipo de equipo de la red. Los nodos de acceso (puntos de acceso y oficinas) son los únicos
- * que atienden usuarios.
- */
+// Tipo de equipo de la red. Los de acceso (punto de acceso y oficina) son los únicos que atienden usuarios
 public enum TipoNodo {
     ROUTER, SWITCH, SERVIDOR, PUNTO_ACCESO, DATA_CENTER, OFICINA;
 

@@ -4,11 +4,8 @@ import java.util.List;
 
 import ucu.edu.aed.telecom.modelo.Enlace;
 
-/**
- * El cableado más barato: los enlaces a instalar y su costo total.
- * Si conexo es false no se pudieron unir todos los nodos (no hay árbol abarcador): los enlaces son los del
- * bosque de costo mínimo, uno por cada parte que sí se puede conectar.
- */
+// El cableado más barato: los enlaces a instalar y su costo total.
+// Si conexo es false no se pudieron unir todos los nodos y los enlaces son un bosque de costo mínimo
 public class ResultadoCableado {
 
     private final List<Enlace> enlaces;
@@ -21,7 +18,7 @@ public class ResultadoCableado {
         this.conexo = conexo;
     }
 
-    /** Los enlaces elegidos (lista inmodificable). */
+    // Los enlaces elegidos
     public List<Enlace> getEnlaces() {
         return enlaces;
     }

@@ -5,7 +5,6 @@ import ucu.edu.aed.tda.grafo.model.edge.UndirectedEdge;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -73,7 +72,7 @@ public class UndirectedGraph<V, D> implements IUndirectedGraph<V, D> {
 
     @Override
     public Set<V> vertices() {
-        return Collections.unmodifiableSet(adyacencias.keySet());
+        return adyacencias.keySet();
     }
 
     /** Cada arista está dos veces en las listas; el equals simétrico de UndirectedEdge deja una sola. */
@@ -81,7 +80,7 @@ public class UndirectedGraph<V, D> implements IUndirectedGraph<V, D> {
     public Set<Edge<V, D>> aristas() {
         Set<Edge<V, D>> todas = new LinkedHashSet<>();
         adyacencias.values().forEach(todas::addAll);
-        return Collections.unmodifiableSet(todas);
+        return todas;
     }
 
     @Override
@@ -102,8 +101,8 @@ public class UndirectedGraph<V, D> implements IUndirectedGraph<V, D> {
     @Override
     public List<Edge<V, D>> adyacencias(Comparable<V> verticeCriteria) {
         V v = buscarVertice(verticeCriteria);
-        if (v == null) return Collections.emptyList();
-        return Collections.unmodifiableList(adyacencias.get(v));
+        if (v == null) return new ArrayList<>();
+        return adyacencias.get(v);
     }
 
     @Override

@@ -12,17 +12,10 @@ import ucu.edu.aed.telecom.modelo.RedTelecom;
 import ucu.edu.aed.telecom.resultado.RecomendacionDC;
 import ucu.edu.aed.telecom.servicio.ServicioCDN;
 
-/**
- * Experimento del Desafío 3: compara recomendarDCSimple (O(V⁴), un Floyd por candidato) con recomendarDC
- * (O(V³), un solo Floyd) en redes del generador de distintos tamaños.
- * - Las redes son mallas ralas, como una red real: E ≈ 3V (un árbol más 2V enlaces extra), con un data center
- *   cada 25 nodos. La semilla es V, así cada tamaño siempre da la misma red.
- * - Antes de medir se verifica que las dos versiones den lo mismo.
- * - Para cada tamaño: CALENTAMIENTO corridas sin medir de cada versión (para que la JVM compile el código) y
- *   después MEDICIONES corridas medidas con System.nanoTime(), alternando las dos versiones. Se guarda la mediana,
- *   que no se deja llevar por una corrida suelta lenta (por ejemplo, si justo pasa el recolector de basura).
- * Uso: BenchmarkCDN [archivo.csv] [V1 V2 ...]. Por defecto resultados/benchmark_cdn.csv y V = 50, 100, 150, 200, 300, 400.
- */
+// Experimento del Desafío 3: compara recomendarDCSimple (O(V⁴)) contra recomendarDC (O(V³))
+// en redes del generador de distintos tamaños (ralas, E ≈ 3V, un data center cada 25 nodos).
+// Antes de medir verifica que den lo mismo, calienta la JVM y se queda con la mediana de las mediciones.
+// Uso: BenchmarkCDN [archivo.csv] [V1 V2 ...]
 public final class BenchmarkCDN {
 
     private static final int CALENTAMIENTO = 3;

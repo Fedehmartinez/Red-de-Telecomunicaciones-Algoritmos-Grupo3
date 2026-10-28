@@ -7,30 +7,19 @@ import ucu.edu.aed.telecom.modelo.TipoEnlace;
 import ucu.edu.aed.telecom.modelo.TipoNodo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Arma redes al azar para los experimentos y los tests. Con la misma semilla siempre da la misma red.
- * - Los primeros nodos son los data centers (DC0, DC1, ...) y el resto (N0, N1, ...) son puntos de acceso
- *   (con usuarios) o routers, mitad y mitad al azar.
- * - Primero se arma un árbol al azar (cada nodo, en un orden mezclado, se une a uno de los anteriores), así
- *   la red siempre es conexa. Después se agregan enlacesExtra enlaces entre pares al azar que todavía no
- *   estén unidos: con 0 extra la red es un árbol (E = V - 1) y con más es una malla.
- * - Latencias de 1 a 20 ms, a veces distintas en cada sentido; costo de 1 a 100.
- */
+// Arma redes al azar para los experimentos y los tests (con la misma semilla sale siempre la misma red).
+// Los primeros nodos son data centers y el resto puntos de acceso o routers.
+// Primero arma un árbol para que la red sea conexa y después agrega enlaces extra.
 public final class GeneradorRedes {
 
     private GeneradorRedes() {
     }
 
-    /**
-     * Red de cantidadNodos nodos (cantidadDataCenters de ellos son data centers) con cantidadNodos - 1 +
-     * enlacesExtra enlaces. IllegalArgumentException si los números no tienen sentido o si se piden más
-     * enlaces de los que entran (un enlace por par: V·(V - 1)/2 como máximo).
-     * Costo: O(V + E) más lo que tarda en encontrar pares libres para los extra.
-     */
+    // Genera una red con cantidadNodos nodos y cantidadNodos - 1 + enlacesExtra enlaces.
+    // Tira IllegalArgumentException si los números no tienen sentido.
     public static RedTelecom generar(long semilla, int cantidadNodos, int enlacesExtra, int cantidadDataCenters) {
         if (cantidadNodos < 1) throw new IllegalArgumentException("Tiene que haber al menos un nodo");
         if (cantidadDataCenters < 0 || cantidadDataCenters > cantidadNodos) {
@@ -61,7 +50,12 @@ public final class GeneradorRedes {
 
         // árbol al azar: así la red es conexa
         List<String> orden = new ArrayList<>(ids);
-        Collections.shuffle(orden, random);
+        for (int i = orden.size(); i > 1; i--) {   // mezcla de Fisher-Yates
+            int j = random.nextInt(i);
+            String auxiliar = orden.get(i - 1);
+            orden.set(i - 1, orden.get(j));
+            orden.set(j, auxiliar);
+        }
         for (int i = 1; i < orden.size(); i++) {
             red.agregarEnlace(enlaceAlAzar(orden.get(i), orden.get(random.nextInt(i)), random));
         }

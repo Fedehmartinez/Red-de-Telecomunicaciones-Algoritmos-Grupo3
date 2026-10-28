@@ -148,12 +148,6 @@ public class ResultadosTest extends TestCase {
         assertEquals("R1", i.getElementoCaido());
         assertEquals(List.of("C", "A", "B"), new ArrayList<>(i.getNodosIncomunicados()));
         assertEquals(900, i.getUsuariosAfectados());
-        try {
-            i.getNodosIncomunicados().clear();
-            fail("Debía lanzar UnsupportedOperationException");
-        } catch (UnsupportedOperationException esperada) {
-            // ok
-        }
     }
 
     public void testResultadoCableado() {

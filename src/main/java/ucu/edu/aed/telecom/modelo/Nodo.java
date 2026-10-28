@@ -2,12 +2,9 @@ package ucu.edu.aed.telecom.modelo;
 
 import java.util.Objects;
 
-/**
- * Un equipo de la red. Los grafos solo conocen el id; el resto de los datos se busca en RedTelecom.
- * En los nodos de acceso la capacidad es la cantidad máxima de usuarios que pueden atender; en los demás
- * es informativa (por ejemplo, Gbps que maneja el equipo) y no tienen usuarios.
- * Dos nodos son iguales si tienen el mismo id.
- */
+// Un equipo de la red. Los grafos solo conocen el id; los demás datos se buscan en RedTelecom.
+// En los nodos de acceso la capacidad es el máximo de usuarios que pueden atender; en los demás es informativa.
+// Dos nodos son iguales si tienen el mismo id.
 public class Nodo {
 
     private final String id;

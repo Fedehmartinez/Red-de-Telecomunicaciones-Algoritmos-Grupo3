@@ -1,9 +1,6 @@
 package ucu.edu.aed.telecom.modelo;
 
-/**
- * Medio físico de un enlace. Solo guarda el rango de ancho de banda (en Mbps) que soporta, para validar
- * los datos: el ancho de banda real, la latencia y el costo son de cada enlace.
- */
+// Medio físico del enlace. Guarda el rango de ancho de banda (Mbps) que soporta, para validar los datos
 public enum TipoEnlace {
     FIBRA(100, 100000),
     COBRE(10, 1000),
@@ -25,7 +22,7 @@ public enum TipoEnlace {
         return anchoBandaMaximo;
     }
 
-    /** true si el ancho de banda está dentro del rango del medio (bordes incluidos). */
+    // true si el ancho de banda entra en el rango del medio (bordes incluidos)
     public boolean admite(double anchoBanda) {
         return anchoBanda >= anchoBandaMinimo && anchoBanda <= anchoBandaMaximo;
     }

@@ -1,9 +1,6 @@
 package ucu.edu.aed.telecom.resultado;
 
-/**
- * Diámetro de la red: el par de nodos con la mayor latencia mínima entre ellos (el peor caso de la red).
- * Si algún par no tiene camino, la latencia es infinita.
- */
+// Diámetro de la red: el par de nodos con la mayor latencia mínima entre ellos (infinita si algún par no tiene camino)
 public class ResultadoDiametro {
 
     private final String desde;
